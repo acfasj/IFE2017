@@ -19,9 +19,13 @@
 	.container div {
 		width: 150px;
 		height: 120px;
-		margin: 10px;
+		margin: 10px 0;
 		flex-shrink: 0;
-		background-color: #f00;
+
+		font-size: 30px;
+		text-align: center;
+		color: #fff;
+		background-color: #d0104c;
 	}
 
 	.container .item2 {
@@ -34,14 +38,13 @@
 
 	.container .item4 {
 		height: 200px;
-		background-color: #0f0;
+		background-color: #00896c;
 	}
 
 	@media screen and (max-width: 640px) {
 		.container {
 			align-items: flex-start;
 			flex-wrap: wrap;
-			min-width: 580px;
 		}
 
 		.container .item4 {
@@ -52,10 +55,10 @@
 </head>
 <body>
 <div class="container">
-	<div class="item1"></div>
-	<div class="item2"></div>
-	<div class="item3"></div>
-	<div class="item4"></div>
+	<div class="item1">1</div>
+	<div class="item2">2</div>
+	<div class="item3">3</div>
+	<div class="item4">4</div>
 </div>
 </body>
 </html>
