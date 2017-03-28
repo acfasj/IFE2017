@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 04</title>
+	<style type="text/css">
+		.main {
+			margin: 100px 10%;
+		}
+
+		ul {
+			list-style: none;
+			overflow: hidden;
+		}
+
+		ul li {
+			float: left;
+			margin: 0 4px;
+			background-color: pink;
+		}
+	</style>
+</head>
+<body>	
+	<div class="main">
+		<form action="">
+			<input type="text" id="input-value">
+			<input type="button" value="左侧入" id="left-in">
+			<input type="button" value="右侧入" id="right-in">
+			<input type="button" value="左侧出" id="left-out">
+			<input type="button" value="右侧出" id="right-out">
+	    </form>
+
+		<ul id="list">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+		</ul>
+	</div>
+
+	<script>
+		var list = document.getElementById("list"),
+			input = document.getElementById("input-value");
+
+		function createItem(value) {
+			var item = document.createElement("li"),
+			    text = document.createTextNode(value);
+
+			item.appendChild(text);
+			return item;
+		}
+
+		function leftIn() {
+			if (!input.value) {
+				return;
+			}
+
+			var item = createItem(input.value);
+			list.insertBefore(item, list.childNodes[0]);
+
+			// 重置input输入框
+			input.value = null;
+		}
+
+		function rightIn() {
+			if (!input.value) {
+				return;
+			}
+
+			var item = createItem(input.value);
+			list.appendChild(item);
+			input.value = null;
+		}
+
+		function leftOut() {
+			if (list.children.length == 0) {
+				return;
+			}
+
+			// 空白符也算一个子节点，因此必须取得第一个元素节点。list.firstElementChild或者list.children[0]均可
+			var firstElementChild = list.children[0];
+
+			// 取得第一个节点即文本节点的文本
+			alert("左侧出：" + firstElementChild.firstChild.nodeValue);
+			list.removeChild(firstElementChild);
+		}
+
+		function rightOut() {
+			if (list.children.length == 0) {
+				return;
+			}
+
+			var lastElementChild = list.children[list.children.length - 1];
+			alert("右侧出：" + lastElementChild.firstChild.nodeValue);
+			list.removeChild(lastElementChild);
+		}
+
+		function init() {
+			document.getElementById("left-in").onclick = leftIn;
+			document.getElementById("right-in").onclick = rightIn;
+			document.getElementById("left-out").onclick = leftOut;
+			document.getElementById("right-out").onclick = rightOut;
+		}
+
+		init();
+	</script>
+</body>
+</html>

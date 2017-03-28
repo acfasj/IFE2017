@@ -1,0 +1,171 @@
+* {margin: 0; padding: 0}
+
+body {background-color: #efefef;}
+
+ul {list-style: none}
+
+h1 {padding: 10px 0;}
+
+h2 {color: #999; padding: 8px 0;}
+
+p {text-indent: 2em;}
+
+/*版心*/
+.w {
+	width: 1280px;
+	margin: 30px auto;
+	padding: 30px;
+
+	background-color: #fff;
+}
+
+.nav {
+	background-color: #333;
+}
+
+.nav .w {
+	margin: 0 auto;
+	padding: 0 30px;
+	overflow: auto;
+	zoom: 1;
+	background-color: #333;
+}
+
+.nav h1.logo {
+	float: left;
+	width: 117px;
+	height: 58px;
+	padding: 0;
+	text-indent: -1000em;
+
+	background: #333 url(./bd_logo1.png) no-repeat 0 0;
+	background-size: contain;
+}
+
+.nav ul {
+	float: right;
+}
+
+.nav ul li {
+	float: left;
+}
+
+.nav li a {
+	display: block;
+	margin-left: 20px;
+	line-height: 58px;
+	color: #fff;
+	text-decoration: none;
+}
+
+.article-info {
+	display: inline-block;
+	padding: 8px 0;
+	color: #999; 
+}
+
+ul.images li {
+	width: 410px;
+	margin: 20px 0;
+	padding: 8px;
+	border: 1px solid #666;
+	text-align: center;
+}
+
+ol {
+	margin: 20px 0 20px 40px;
+}
+
+table {
+	width: 1280px;
+}
+
+table, th, td {
+	margin-top: 10px;
+	padding: 4px;
+	border: 1px solid #666;
+	border-collapse: collapse;
+}
+
+th {
+	color: #fff;
+	background-color: #333
+}
+
+tr.summary td {
+	background-color: #dfdfdf;
+	border: 0;
+	font-weight: bold;
+}
+
+.sidebar {
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.sidebar i {
+	float: left;
+	width: 8px;
+	height: 48px;
+	background-color: #dfdfdf;
+}
+
+.sidebar h2 {
+	float: left;
+	margin: 8px 0 8px 20px;
+	padding: 0;
+	color: #000;
+}
+
+fieldset {
+	border: 0;
+	margin-top: 20px;
+}
+
+.lbox, .rbox {
+	float: left;
+}
+
+.lbox {
+	width: 300px;
+	text-align: right;
+	padding-right: 20px;
+}
+
+.rbox {
+	width: 600px;
+}
+
+.box-parent {
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+
+p.hint {
+	text-indent: 0;
+	color: #999;
+}
+
+input {
+	height: 20px;
+}
+
+textarea {
+	width: 600px;
+	height: 100px;
+}
+
+.submit {
+	display: block;
+	width: 1280px;
+	height: 40px;
+	margin: 20px 0;
+
+	color: #fff;
+	background-color: #3552d0;
+	border: 0;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: bold;
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 05</title>
+	<style type="text/css">
+	div, ul, li, textarea {margin: 0; padding: 0}
+
+	.main {
+		width: 80%;
+		margin: 100px auto;
+	}
+
+	#list {
+		list-style: none;
+		overflow: hidden;
+	}
+
+	#list li {
+		float: left;
+		margin-right: 10px;
+		background-color: #91989f;
+	}
+
+	#input-value {
+		display: block;
+		margin: 4px 0;
+		padding: 4px;
+
+		font-size: 16px;
+		font-style: bold;
+	}
+	</style>
+</head>
+<body>	
+	<div class="main">
+		<ul id="list">
+		<li>请在下方的textarea输入内容</li>
+		</ul>
+
+		<form action="">
+			<textarea id="input-value" rows="14" cols="80">允许一次批量输入多个内容，格式可以为数字、中文、英文等，可以通过用回车，逗号（全角半角均可），顿号，空格（全角半角、Tab等均可）等符号作为不同内容的间隔
+
+			允许一次批量输入多个内容，,,,，格式可以为数字、123   456、···、中文、英文等，可以通过用回车
+			逗号（全角半角均可），顿号，空格             （全角半角、Tab等均可）等符号作为不同内容的间隔
+			Imagine a world 
+			That you never knew
+			Right above us and it's filled 
+			With people just 
+			Like me and you
+			We don't need to 
+			Make a reservation 
+			No it's not a rule
+			I can take you 
+			To the spot but 
+			There's one thing 
+			You gonna do
+			Tell me how much that means</textarea>
+			<input type="button" value="左侧入" id="left-in">
+			<input type="button" value="右侧入" id="right-in">
+			<input type="button" value="左侧出" id="left-out">
+			<input type="button" value="右侧出" id="right-out">
+			<input type="text"  id="keyword" placeholder="请输入搜索关键字">
+			<input type="button" value="搜索" id="search">
+	    </form>
+	</div>
+
+<script>
+var list = document.getElementById("list"),
+	input = document.getElementById("input-value");
+
+/**
+ * createItemsArr
+ * 根据textarea的输入，返回一个去掉分隔符的数组
+ */
+function createItemsArr(str) {
+	var pattern = /[\s,，、`]+/;
+	var arr = str.split(pattern);
+	
+	return arr;
+}
+
+
+/**
+ * leftIn
+ * 从队列左边插入输入的值
+ */
+function leftIn() {
+	if (!input.value) {
+		return;
+	}
+
+	var itemsArr = createItemsArr(input.value);
+	itemsArr.forEach(function(element) {
+		if (!element) {
+			return;
+		}
+
+		var item = document.createElement("li"),
+	    	text = document.createTextNode(element);
+
+	    item.appendChild(text);
+	    console.log(element);
+		list.insertBefore(item, list.childNodes[0]);
+	});
+
+	// 重置input输入框
+	input.value = null;
+}
+
+/**
+ * rightIn
+ * 从队列右边插入输入的值
+ */
+function rightIn() {
+	if (!input.value) {
+		return;
+	}
+
+	var itemsArr = createItemsArr(input.value);
+	itemsArr.forEach(function(element) {
+		if (!element) {
+			return;
+		}
+
+		var item = document.createElement("li"),
+	    	text = document.createTextNode(element);
+
+	    item.appendChild(text);
+		list.appendChild(item);
+	});
+
+	input.value = null;
+}
+
+/**
+ * leftOut
+ * 从队列左边移除元素
+ */
+function leftOut() {
+	if (list.children.length == 0) {
+		return;
+	}
+
+	// 空白符也算一个子节点，因此必须取得第一个元素节点。list.firstElementChild或者list.children[0]均可
+	var firstElementChild = list.children[0];
+
+	// 取得第一个节点即文本节点的文本
+	alert("左侧出：" + firstElementChild.firstChild.nodeValue);
+	list.removeChild(firstElementChild);
+}
+
+/**
+ * rightOut
+ * 从队列右边移除元素
+ */
+function rightOut() {
+	if (list.children.length == 0) {
+		return;
+	}
+
+	var lastElementChild = list.children[list.children.length - 1];
+	alert("右侧出：" + lastElementChild.firstChild.nodeValue);
+	list.removeChild(lastElementChild);
+}
+
+/**
+ * search
+ * 对
+ * 返回排序后的数组
+ */
+function search() {
+	var keyword = document.getElementById("keyword"),
+		regexp = new RegExp("[" + keyword.value + "]+");
+
+	for (var i = 0; i < list.children.length; i++) {
+		var item = list.children[i];
+
+		// 重置上一次搜索结果的背景颜色
+		item.style.backgroundColor = "#91989f";	
+		if (regexp.test(item.firstChild.nodeValue)) {
+			console.log(item.firstChild.nodeValue);
+			item.style.backgroundColor = "#d0104c";	//red
+		}
+	}
+}
+
+/**
+ * btnHandle
+ * 绑定按钮事件处理函数
+ */
+function btnHandle() {
+	document.getElementById("left-in").onclick = leftIn;
+	document.getElementById("right-in").onclick = rightIn;
+	document.getElementById("left-out").onclick = leftOut;
+	document.getElementById("right-out").onclick = rightOut;
+	document.getElementById("search").onclick = search;
+}
+
+/**
+ * init
+ * 初始化
+ */
+function init() {
+	btnHandle();
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 05</title>
+	<style type="text/css">
+	* {margin: 0; padding: 0}
+	body {font-size: 16px; color: #fff;}
+
+	.main {
+		width: 80%;
+		margin: 100px auto;
+	}
+
+	ul {
+		list-style: none;
+	}
+
+	ul li {
+		display: inline-block;
+		width: 2em;
+		margin-right: 10px;
+		overflow: hidden;
+		background-color: #91989f;
+	}
+
+	#input-value {
+		/*display: inline-block;*/
+	}
+	</style>
+</head>
+<body>	
+	<div class="main">
+		<ul id="list">
+			<li>100</li>
+			<li>30</li>
+			<li>20</li>
+			<li>10</li>
+			<li>28</li>
+			<li>96</li>
+			<li>65</li>
+			<li>47</li>
+			<li>80</li>
+			<li>70</li>
+			<li>60</li>
+			<li>50</li>
+		</ul>
+
+		<form action="">
+			<input type="text" id="input-value" placeholder="请输入整数，10-100" >
+			<input type="button" value="左侧入" id="left-in">
+			<input type="button" value="右侧入" id="right-in">
+			<input type="button" value="左侧出" id="left-out">
+			<input type="button" value="右侧出" id="right-out">
+			<input type="button" value="冒泡排序" id="bubble-sort">
+	    </form>
+	</div>
+
+<script>
+var list = document.getElementById("list"),
+	input = document.getElementById("input-value");
+
+/**
+ * createItem
+ * 创建一个li元素和一个文本节点，把文本节点添加到li元素
+ * 返回一个li元素
+ */
+function createItem(value) {
+	var item = document.createElement("li"),
+	    text = document.createTextNode(value);
+
+	item.appendChild(text);
+	item.style.height = item.firstChild.nodeValue * 2 + "px";
+	return item;
+}
+
+/**
+ * inputTest
+ * 对input输入框的值进行检测
+ * 合格返回num，不合格返回null
+ */
+function inputTest() {
+	var num = parseInt(input.value, 10);
+
+	// 不是一个数值
+	if (isNaN(num)) {
+		return null;
+	}
+
+	// 10-100
+	if (num<10 || num>100) {
+		alert("请输入整数，大于等于10，小于等于100");
+		return null;
+	}
+
+	if (list.children.length > 60) {
+		alert("队列元素最多为60个！");
+		return null;
+	}
+
+	return num;
+}
+
+/**
+ * leftIn
+ * 从队列左边插入输入的值
+ */
+function leftIn() {
+	input.value = inputTest();
+	if (!input.value) {
+		return;
+	}
+
+	var item = createItem(input.value);
+	list.insertBefore(item, list.childNodes[0]);
+
+	// 重置input输入框
+	input.value = null;
+}
+
+/**
+ * rightIn
+ * 从队列右边插入输入的值
+ */
+function rightIn() {
+	input.value = inputTest();
+	if (!input.value) {
+		return;
+	}
+
+	var item = createItem(input.value);
+	list.appendChild(item);
+	input.value = null;
+}
+
+/**
+ * leftOut
+ * 从队列左边移除元素
+ */
+function leftOut() {
+	if (list.children.length == 0) {
+		return;
+	}
+
+	// 空白符也算一个子节点，因此必须取得第一个元素节点。list.firstElementChild或者list.children[0]均可
+	var firstElementChild = list.children[0];
+
+	// 取得第一个节点即文本节点的文本
+	alert("左侧出：" + firstElementChild.firstChild.nodeValue);
+	list.removeChild(firstElementChild);
+}
+
+/**
+ * rightOut
+ * 从队列右边移除元素
+ */
+function rightOut() {
+	if (list.children.length == 0) {
+		return;
+	}
+
+	var lastElementChild = list.children[list.children.length - 1];
+	alert("右侧出：" + lastElementChild.firstChild.nodeValue);
+	list.removeChild(lastElementChild);
+}
+
+/**
+ * bubbleSort
+ * 对ul内的li元素进行冒泡排序，升序。实际上只是改变li元素对应的backgroundColor和height。红色代表正在进行比较的两个元素
+ * 返回排序后的数组
+ */
+function bubbleSort() {
+	var len = list.children.length,
+		count = 0,
+		color = "#d0104c";	//red
+	for (var i = 0; i < len-1; i++) {
+
+		for (var j = 0; j < len-1-i; j++) {
+
+			// setTimeout()，闭包，因为j有重复值，故定义count，循环延迟执行
+			(function(j) {
+				setTimeout(function() {
+					var cur = list.children[j],
+					next = list.children[j+1];
+
+					// 要使用parseIn()来比较，否则两个都是字符串话，会根据第一个字符对应的ASCII码来比较
+					if (parseInt(cur.firstChild.nodeValue, 10) > parseInt(next.firstChild.nodeValue, 10)) {
+
+						// coloeNode()保证深复制
+						var temp = cur.cloneNode(true);
+						cur.style.backgroundColor = color;
+
+						// 根据当前数值设置高度，*2px
+						cur.style.height = next.firstChild.nodeValue * 2 + "px";
+						cur.firstChild.nodeValue = next.firstChild.nodeValue;
+
+						next.style.backgroundColor = color;
+						next.style.height = temp.firstChild.nodeValue * 2 + "px";
+						next.firstChild.nodeValue = temp.firstChild.nodeValue;
+
+						// 在比较前的元素置为灰色
+						for (var p = 0; p < j; p++) {
+							list.children[p].style.backgroundColor = "#91989f";	//gray
+						}
+
+						// 在比较后的元素置为绿色
+						for (var q = len-1; q > j+1; q--) {
+							list.children[q].style.backgroundColor = "#00896c";	//green
+						}
+					}
+				}, count*1000);
+
+			})(j);
+			count++;
+		}
+	}
+}
+
+/**
+ * btnHandle
+ * 绑定按钮事件处理函数
+ */
+function btnHandle() {
+	document.getElementById("left-in").onclick = leftIn;
+	document.getElementById("right-in").onclick = rightIn;
+	document.getElementById("left-out").onclick = leftOut;
+	document.getElementById("right-out").onclick = rightOut;
+	document.getElementById("bubble-sort").onclick = bubbleSort;
+}
+
+/**
+ * init
+ * 初始化
+ */
+function init() {
+	btnHandle();
+	for (var i = 0; i < list.children.length; i++) {
+		var item = list.children[i];
+		item.style.height = item.firstChild.nodeValue * 2 + "px";
+	}
+}
+
+init();
+</script>
+</body>
+</html>

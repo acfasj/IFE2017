@@ -1,0 +1,201 @@
+body, div, ul, li, h1, h2, p, form, input,fieldset, table, tr, th, td, footer  {margin: 0; padding: 0}
+
+body {background-color: #efefef;}
+
+ul {list-style: none}
+
+h1 {padding: 10px 0;}
+
+h2 {color: #999; padding: 8px 0;}
+
+p {text-indent: 2em;}
+
+img {width: 100%;}
+
+/*版心*/
+.w1 {
+	margin: 30px 0 0 30px;
+	padding: 30px;
+	background-color: #fff;
+}
+
+.mw960{
+	min-width: 960px;
+}
+
+.oh {
+	overflow: hidden;
+}
+
+/*@nav 
+ *导航栏
+ */
+.nav {
+	margin: 0 auto;
+	padding: 0 30px;
+	overflow: auto;
+	zoom: 1;
+	background-color: #333;
+}
+
+.nav h1.logo {
+	float: left;
+	position: relative;
+	top:-10px; 
+	width: 117px;
+	height: 58px;
+	padding: 0;
+	text-indent: -1000em;
+
+	background: #333 url(./bd_logo1.png) no-repeat 0 0;
+	background-size: contain;
+}
+
+.nav ul {
+	float: right;
+}
+
+.nav ul li {
+	float: left;
+}
+
+.nav li a {
+	display: block;
+	margin-left: 20px;
+	line-height: 58px;
+	color: #fff;
+	text-decoration: none;
+}
+
+/*@sidebar 
+ *侧边栏
+ */
+ .content .sidebar{
+ float: right;
+ width: 320px;
+ margin: 30px 30px 0 0;
+ padding: 30px;
+ background-color: #fff;
+}
+
+.sidebar i {
+	float: left;
+	width: 8px;
+	height: 48px;
+	background-color: #dfdfdf;
+}
+
+.sidebar h2 {
+	float: left;
+	margin: 8px 0 8px 20px;
+	padding: 0;
+	color: #000;
+}
+
+fieldset {
+	border: 0;
+	margin-top: 20px;
+}
+
+.lbox {
+	float: left;
+	width: 130px;
+	text-align: right;
+}
+
+.rbox {
+	float: right;
+	width: 170px;
+}
+
+.box-parent {
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+
+p.hint {
+	text-indent: 0;
+	color: #999;
+}
+
+input {
+	height: 20px;
+}
+
+textarea {
+	width: 168px;
+	height: 100px;
+}
+
+.submit {
+	display: block;
+	width: 320px;
+	height: 40px;
+
+	color: #fff;
+	background-color: #3552d0;
+	border: 0;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+/*@primary 
+ *主体内容
+ */
+.content .primary{
+ margin-right: 440px;
+}
+
+.article-info {
+	display: inline-block;
+	padding: 8px 0;
+	color: #999; 
+}
+
+ul.images li {
+	display: inline-block;
+	width: 150px;
+	margin: 1em;
+	padding: 8px;
+	border: 1px solid #666;
+	text-align: center;
+}
+
+ol {
+	margin: 20px 0 20px 40px;
+}
+
+table {
+	width: 100%;
+}
+
+table, th, td {
+	margin-top: 10px;
+	padding: 4px;
+	border: 1px solid #666;
+	border-collapse: collapse;
+}
+
+th {
+	color: #fff;
+	background-color: #333
+}
+
+tr.summary td {
+	background-color: #dfdfdf;
+	border: 0;
+	font-weight: bold;
+}
+
+/*@footer 
+ *页脚
+ */
+footer {
+	margin-top: 30px;
+	padding: 20px;
+	background-color: #333;
+	text-align: center;
+	color: #fff;
+}

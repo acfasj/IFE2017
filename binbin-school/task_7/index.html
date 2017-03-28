@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 05</title>
+	<style type="text/css">
+	div {
+		display: flex;
+		justify-content: space-between;
+		padding: 20px;
+		border: 1px solid #000;
+        transition: background-color 0.8s;
+	}
+	.root {
+		background-color: pink;
+		width: 768px;
+		margin: 100px auto 20px;
+	}
+    
+    .root .left {
+    	margin-right: 26px;
+    }
+	
+    .btn {
+    	width: 768px;
+    	margin: 0 auto;
+    	border: none;
+    }
+
+	.btn input {
+		width: 50px;
+		height: 30px;
+	}
+	</style>
+</head>
+<body>
+	<div class="root" id="ancestor">
+		<div class="left">
+			<div class="left">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="right">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+		</div>
+
+		<div class="right">
+			<div class="left">
+			  	<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+			<div class="right">
+				<div class="left">
+				</div>
+				<div class="right">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn">
+		<input type="button" value="前序">
+		<input type="button" value="中序">
+		<input type="button" value="后序">
+	</div>
+<script type="text/javascript">
+var ancestor = document.getElementById("ancestor"),
+	btns = document.getElementsByTagName("input"),
+	dlrBtn = btns[0],
+    ldrBtn = btns[1],
+    lrdBtn = btns[2],
+	divArr = [];
+
+// 前序遍历
+function dlr(node) {
+	if (node !== null) {
+		divArr.push(node);
+		dlr(node.firstElementChild);
+		dlr(node.lastElementChild);
+	}
+}
+
+// 中序遍历
+function ldr(node) {
+    if (node !== null) {
+        ldr(node.firstElementChild);
+        divArr.push(node);
+        ldr(node.lastElementChild);
+    }
+}
+
+// 后序遍历
+function lrd(node) {
+    if (node !== null) {
+        lrd(node.firstElementChild);
+        lrd(node.lastElementChild);
+        divArr.push(node);
+    }
+}
+
+function init() {
+//    divArr.forEach(function (ele) {
+//		ele.style.backgroundColor = "#fff";
+//    });
+    divArr.splice(0, divArr.length);
+}
+
+function changeColor(arr) {
+    var len = arr.length;
+
+    // 为了使最后一个div变回白色，增加多一次循环
+	for (var i = 0; i <= len; i++) {
+        (function(i) {
+			setTimeout(function() {
+			    for (var j = 0; j < len; j++) {
+			        if (i == j) {
+                        arr[j].style.backgroundColor = "red";
+					}
+					else {
+			            arr[j].style.backgroundColor = "#fff";
+					}
+				}
+			}, i*500);
+		})(i);
+    }
+}
+
+// 绑定按钮事件
+dlrBtn.onclick = function() {
+    init();
+	dlr(ancestor);
+	changeColor(divArr);
+	console.log(divArr);
+}
+
+ldrBtn.onclick = function() {
+    init();
+	ldr(ancestor);
+	changeColor(divArr);
+	console.log(divArr);
+}
+
+lrdBtn.onclick = function() {
+    init();
+	lrd(ancestor);
+	changeColor(divArr);
+	console.log(divArr);
+}
+</script>
+</body>
+</html>

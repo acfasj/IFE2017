@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE Intergrated Task 01</title>
+	<style type="text/css">
+		div, form, input {margin: 0; padding: 0;}
+		.box {
+			width: 800px;
+			margin: 100px auto;
+		}
+
+		#info {
+			color: gray;
+			font-size: 14px;
+		}
+	</style>
+</head>
+<body>
+	<form action="">
+		<div class="box">
+			用户名：
+			<input type="text" id="username">
+			<input type="button" id="validate" value="验证">
+
+			<div>
+				<span id="info">必填，长度为4~16个字符</span>
+			</div>
+		</div>
+	</form>
+<script type="text/javascript">
+var username = document.getElementById("username"),
+	validate = document.getElementById("validate"),
+	info = document.getElementById("info");
+
+/**
+ * handle
+ * 事件处理函数
+ */
+function handle() {
+	var str = username.value,
+		len = getStrLen(str);
+
+	if (len === 0) {
+		username.style.borderColor = "red";
+		info.firstChild.nodeValue = "姓名不能为空"
+		info.style.color = "red";
+	}
+	else if (len >= 4 && len <= 16) {
+		username.style.borderColor = "green";
+		info.firstChild.nodeValue = "格式正确"
+		info.style.color = "green";
+	}
+	else {
+		username.style.borderColor = "red";
+		info.firstChild.nodeValue = "长度必须为4~16个字符"
+		info.style.color = "red";
+	}
+}
+
+/**
+ * getStrLen
+ * 获取字符串的长度，英文为一个字符，中文为两个字符
+ */
+function getStrLen(str) { 
+	var len = 0,
+		i = 0;
+	while (i < str.length) {
+		var char = str[i],
+			charCode = char.charCodeAt(0);
+
+		// ASCII
+		if (charCode <= 0xff) {
+			len++;
+			i++;
+		}
+		else {
+			/* 使用32bit编码的
+			 * 前16bit 一定在 0xD800-0xDBFF 区间，
+			 * 后16bit 一定在 0xDC00-0xDFFF 区间 */
+			if (charCode >= 0xd800 && charCode <= 0xdbff) {
+				len += 2;
+				i += 2;
+			}
+			else {
+				len += 2;
+				i++;
+			}
+		}
+	}
+	return len;
+}
+
+validate.onclick = handle;
+</script>
+</body>
+</html>
