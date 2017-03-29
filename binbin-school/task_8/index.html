@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 08</title>
+<style type="text/css">
+body, div {
+	margin: 0;
+	padding: 0;
+}
+
+div {
+	display: flex;
+	justify-content: flex-start;
+	padding: 14px;
+	border: 1px solid #000;
+	font-size: 14px;
+	transition: background-color .8s;
+}
+
+.root {
+	background-color: pink;
+	width: 1280px;
+	margin: 100px auto 20px;
+}
+
+.root div {
+	margin-right: 10px;
+}
+
+.btns {
+	justify-content: center;
+	border: 0px;
+	width: 800px;
+	margin: 10px auto;
+}
+
+.btns input {
+	margin: 0 16px;
+}
+</style>
+</head>
+<body>
+<div class="root" id="ancestor">Supper
+	<div>Co
+		<div>Apple</div>
+		<div>Phone</div>
+		<div><div>Book</div><div>School</div></div>
+	</div>
+
+
+	<div>Note
+		<div>Human
+			<div>Code</div>
+			<div>Operate</div>
+			<div>Man</div>
+		</div>
+		<div>Program
+			<div>Element<div>Cat</div></div>
+			<div>Glass</div>
+		</div>
+	</div>
+
+	<div>Fish</div>
+</div>
+
+<div class="btns">
+	<select id="traverseWay">
+		<option value="dfs">深度优先</option>
+		<option value="bfs">广度优先</option>
+	</select>
+	<input type="button" value="开始遍历">
+	<input type="text">
+	<input type="button" value="搜索">
+</div>
+<script type="text/javascript">
+var ancestor = document.getElementById("ancestor"),
+	traverseWay = document.getElementById("traverseWay"),
+	btns = document.getElementsByTagName("input"),
+	inputStr = btns[1],
+	traverseBtn = btns[0],
+	searchBtn = btns[2],
+	divArr = [];
+
+/* *
+ * init
+ * 初始化相关变量
+ */
+function init() {
+	traverseBtn.disabled = true;
+	searchBtn.disabled = true;
+    divArr.splice(0, divArr.length);
+}
+
+/* *
+ * traverseDF
+ * 深度优先遍历
+ */
+function traverseDF(root, callback) {
+	(function recurse(currentNode) {
+        callback(currentNode);
+
+    	for (var i = 0, length = currentNode.children.length; i < length; i++) {
+        	recurse(currentNode.children[i]);
+	    }
+    })(root);
+}
+
+/* *
+ * traverseBF
+ * 广度优先遍历
+ */
+function traverseBF(root, callback) {
+    var queue = [];
+    queue.push(root);
+    currentNode = queue.shift();
+
+    while(currentNode) {
+        for (var i = 0, length = currentNode.children.length; i < length; i++) {
+            queue.push(currentNode.children[i]);
+        }
+
+        callback(currentNode);
+        currentNode = queue.shift();
+   	}
+}
+
+/* *
+ * getOrder
+ * 回调函数，取得遍历顺序
+ */
+function getOrder(node) {
+	divArr.push(node);
+}
+
+/* *
+ * traverseAnimation
+ * 遍历动画
+ */
+function traverseAnimation(arr) {
+    var len = arr.length;
+
+    // 为了使最后一个div变回白色，增加多一次循环
+	for (var i = 0; i <= len; i++) {
+        (function(i) {
+			setTimeout(function() {
+				if (i < len) {
+					for (var j = 0; j < len; j++) {
+			        if (i == j) {
+	                    arr[j].style.backgroundColor = "red";
+					}
+					else {
+						arr[j].style.backgroundColor = "#fff";
+						}
+					}
+				}
+				else if (i == len) {
+					traverseBtn.disabled = false;
+					searchBtn.disabled = false;
+		            arr[len-1].style.backgroundColor = "#fff";
+				}
+			}, i*500);
+		})(i);
+    }
+}
+
+/* *
+ * contains
+ * 以某种遍历顺序搜索某棵树的特定节点
+ */
+function contains(root, traversal, callback) {
+	traversal.call(this, root, callback);
+}
+
+/* *
+ * issearched
+ * 若存在所搜索的节点，返回，否则返回null
+ */
+function issearched() {
+	var node = null;
+	for (var i =0, length = divArr.length; i < length; i++) {
+		var str = divArr[i].firstChild.nodeValue;
+		if (str !== null) {
+			var newStr = str.replace(/\s+/g, "");
+			if (newStr === inputStr.value) {
+				node = divArr[i]
+			}
+		}
+	}
+	return node;
+}
+
+/* *
+ * searchAnimation
+ * 搜索动画
+ */
+function searchAnimation(arr) {
+	var node = issearched();
+	if (node) {
+		var idx = arr.indexOf(node),
+		    newArr = arr.slice(0, idx+1);
+
+		var len = newArr.length;
+		for (var i = 0; i <= len; i++) {
+	    (function(i) {
+			setTimeout(function() {
+				if (i < len) {
+					for (var j = 0; j < len; j++) {
+			        if (i == j) {
+	                    newArr[j].style.backgroundColor = "red";
+					}
+					else {
+						newArr[j].style.backgroundColor = "#fff";
+						}
+					}
+				}
+				else if (i == len) {
+					traverseBtn.disabled = false;
+					searchBtn.disabled = false;
+		            newArr[len-1].style.backgroundColor = "#0f0";
+		            for (var k = 0; k < arr.length; k++) {
+		            	if (k !== len-1) {
+		            		arr[k].style.backgroundColor = "#fff";
+		            	}
+		            }
+				}
+				}, i*500);
+			})(i);
+		}
+	}
+
+	else {
+		alert("树里没有该节点！");
+		traverseBtn.disabled = false;
+		searchBtn.disabled = false;
+	}
+}
+
+/* *
+ * 绑定按钮事件函数
+ */
+traverseBtn.onclick = function() {
+	init();
+	if (traverseWay.value == "dfs") {
+		traverseDF(ancestor, getOrder);
+	}
+	else {
+		traverseBF(ancestor, getOrder);
+	}
+	traverseAnimation(divArr);
+}
+
+searchBtn.onclick = function() {
+	init();
+	if (traverseWay.value == "dfs") {
+		contains(ancestor, traverseDF, getOrder);
+	}
+	else {
+		contains(ancestor, traverseBF, getOrder);
+	}
+	searchAnimation(divArr);
+}
+</script>
+</body>
+</html>
